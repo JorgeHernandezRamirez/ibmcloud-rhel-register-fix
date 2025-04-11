@@ -27,7 +27,7 @@ The following procedure has been tested on the following rhel versions
     * v9.2. ```ibm-redhat-9-2-minimal-amd64-8``` image
     * v9.4. ```ibm-redhat-9-4-minimal-amd64-7``` image
 
-# Subscribe your RHEL OS on IBM Cloud after an error during provisioning
+# Subscribe your RHEL OS on IBM Cloud after a subscription error during provisioning
 ### Step 1. Review that your RHEL hasn't be subscribed
 ```bash
 subscription-manager status
