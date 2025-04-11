@@ -75,7 +75,13 @@ We will proceed by restarting the cloud-init procedure. The component responsibl
 cloud-init clean
 reboot
 ```
-Why? If we review the ```https://github.com/canonical/cloud-init/blob/main/cloudinit/config/cc_scripts_vendor.py``` code, the scripts executed are located at ```/var/lib/cloud/instance/scripts/vendor``` directory which are built previously by ```cloud-init service``` from the ```vendor-data``` file located on ```cloud-init volume``` provided by IBM Cloud. The responsible for performing finally the subscription is the ```/var/lib/cloud/instance/scripts/vendor/part-004``` file.
+### Deeper explanation
+The responsible for performing finally the subscription is the ```/var/lib/cloud/instance/scripts/vendor/part-004``` file. The script vendor, is the responsible to run the scripts located at ```/var/lib/cloud/instance/scripts/vendor``` directory. This structure and files are built previously by other ```cloud-init``` modules using the ```vendor-data``` file located on the ```cloud-init volume``` provided by IBM Cloud. 
+
+Script vendor source code
+```
+https://github.com/canonical/cloud-init/blob/main/cloudinit/config/cc_scripts_vendor.py
+```
 
 # FAQ's
 ### 1. How can you determine which volume is the cloud-init volume?
