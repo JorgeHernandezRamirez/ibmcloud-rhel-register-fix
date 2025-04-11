@@ -69,15 +69,13 @@ You must review the ```security groups``` attached to the VNI bound to your VSI,
 
 
 ### Step 4. Subscribe it
-We will proceed restarting the cloud-init procedure. The responsible to subscribe your RHEL OS is cloud-init. Module ```scripts-vendor``` is under ```cloud_final_modules:``` on ```/etc/cloud/cloud.cfg``` file that is executed once at the machine's first startup. To fix it, you simply need to
+We will proceed by restarting the cloud-init procedure. The component responsible for subscribing your RHEL OS is cloud-init, through the ```scripts-vendor``` module, which is located under ```cloud_final_modules``` in the ```/etc/cloud/cloud.cfg``` file. Final modules are executed once during the machine's first startup. To force another execution, we simply need to do the following:
 
 ```bash
 cloud-init clean
 reboot
 ```
-Why? If we review the ```https://github.com/canonical/cloud-init/blob/main/cloudinit/config/cc_scripts_vendor.py``` the scripts will be executed which are located in ```/var/lib/cloud/instance/scripts/vendor``` which is located on cloud-init volume provided by IBM Cloud.
-
-On ```/var/lib/cloud/instance/scripts/vendor/part-004``` file you might find the subscription command
+Why? If we review the ```https://github.com/canonical/cloud-init/blob/main/cloudinit/config/cc_scripts_vendor.py``` code, the scripts executed are located at ```/var/lib/cloud/instance/scripts/vendor``` directory which are built previously by ```cloud-init service``` from the ```vendor-data``` file located on ```cloud-init volume``` provided by IBM Cloud. The responsible for performing finally the subscription is the ```/var/lib/cloud/instance/scripts/vendor/part-004``` file.
 
 # FAQ's
 ### 1. How can you determine which volume is the cloud-init volume?
