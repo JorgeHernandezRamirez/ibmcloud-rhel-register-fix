@@ -47,10 +47,10 @@ We have identified several scenarios where this issue could occur:
 * Lack of network connectivity to the subscription endpoint.
 * A user has forced a re-registration using the command: ```subscription-manager register --force``` and the procedure hadn't finished.
 
-### Step 2. How to check which is the subscription rhel host and port used
+### Step 2. How to check which is the subscription RHEL host and port used
 ```bash
-export RHEL_SUBSCRIPTION_HOSTNAME=$(cat  /etc/rhsm/rhsm.conf | grep -E "^hostname =" | cut -d'=' -f 2 | sed 's/^ //g')
-export RHEL_SUBSCRIPTION_PORT=$(cat  /etc/rhsm/rhsm.conf | grep -E "^port =" | cut -d'=' -f 2 | sed 's/^ //g')
+export RHEL_SUBSCRIPTION_HOSTNAME=$(cat /etc/rhsm/rhsm.conf | grep -E "^hostname =" | cut -d'=' -f 2 | sed 's/^ //g')
+export RHEL_SUBSCRIPTION_PORT=$(cat /etc/rhsm/rhsm.conf | grep -E "^port =" | cut -d'=' -f 2 | sed 's/^ //g')
 ```
 On ```eu-es``` the values are
 * hostname: ```rhha01.updates.eu-es.iaas.service.networklayer.com, rhha02.updates.eu-es.iaas.service.networklayer.com```
