@@ -93,7 +93,7 @@ excepted output
 ```bash
 /dev/vdc: LABEL="cidata" TYPE="iso9660"
 ```
-To understand how cloud-init determines its behavior, you can refer to the following source file https://github.com/canonical/cloud-init/blob/main/cloudinit/sources/DataSourceNoCloud.py
+To understand how cloud-init determines its, you can take a loot at https://github.com/canonical/cloud-init/blob/main/cloudinit/sources/DataSourceNoCloud.py
 
 ### 2. How to subscribe your RHEL OS through rh_subscription on userdata?
 Don't recommended if you are in a IBM-Managed Subscription model
