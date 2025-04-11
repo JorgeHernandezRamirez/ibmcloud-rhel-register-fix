@@ -76,7 +76,7 @@ cloud-init clean
 reboot
 ```
 ### Deeper explanation
-The responsible for performing finally the subscription is the ```/var/lib/cloud/instance/scripts/vendor/part-004``` file. The script vendor, is the responsible to run the scripts located at ```/var/lib/cloud/instance/scripts/vendor``` directory. This structure and files are built previously by other ```cloud-init``` modules using the ```vendor-data``` file located on the ```cloud-init volume``` provided by IBM Cloud. 
+The responsible for performing finally the subscription is the ```/var/lib/cloud/instance/scripts/vendor/part-004``` file. The ```scripts-vendor```module will run the bash files located at ```/var/lib/cloud/instance/scripts/vendor``` directory. This structure and files are built previously by other ```cloud-init``` modules using the ```vendor-data``` file located on the ```cloud-init volume``` provided by IBM Cloud. 
 
 Script vendor source code
 ```
