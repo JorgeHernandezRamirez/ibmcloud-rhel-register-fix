@@ -49,8 +49,8 @@ We have identified several scenarios where this issue could occur:
 
 ### Step 2. How to check which is the subscription RHEL host and port used
 ```bash
-export RHEL_SUBSCRIPTION_HOSTNAME=$(cat /etc/rhsm/rhsm.conf | grep -E "^hostname =" | cut -d'=' -f 2 | sed 's/^ //g')
-export RHEL_SUBSCRIPTION_PORT=$(cat /etc/rhsm/rhsm.conf | grep -E "^port =" | cut -d'=' -f 2 | sed 's/^ //g')
+export RHEL_SUBSCRIPTION_HOSTNAME=$(cat /var/lib/cloud/instance/scripts/vendor/part-004 | grep -E "^REDHAT_CAPSULE_SERVER" | cut -d'=' -f 2 | sed 's/"//g')
+export RHEL_SUBSCRIPTION_PORT=8443
 ```
 On ```eu-es``` the values are
 * hostname: ```rhha01.updates.eu-es.iaas.service.networklayer.com, rhha02.updates.eu-es.iaas.service.networklayer.com```
