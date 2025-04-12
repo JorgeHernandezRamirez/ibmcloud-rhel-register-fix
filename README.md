@@ -16,18 +16,19 @@ cat /mnt/cloud-init/vendor-data
 
 ![alt text](cloudinit.jpg)
 
-We can summarize the Cloud-Init process as follows:
+We can summarize the subscription register process on cloud-init  as follows:
 
 | Step                  | Description | Responsible                 |
 |---------------------------|-------------------------------------------------------------------|----|
 | 1         | VSI Starts up  | IBM |
-| 2         | Cloud init service starts  | RHEL OS |
-| 3         | ```DataSourceNoCloud``` is selected  | Cloud-init |
-| 4         | Cloud-init volume is mounted | Cloud-init |
-| 5         | ```/var/lib/cloud/instance/``` folder is created from cloud-init volume files  | Cloud-init |
-| 6         | Init, config and final modules are executed  | Cloud-init |
-| 7         | scripts-vendor is executed  | Cloud-init |
-| 8         | ```/var/lib/cloud/instance/scripts/vendor/part-004``` script is executed where the subscription registration takes place	 | RHEL OS |
+| 2         | Cloud init service starts  | RHEL |
+| 3         | ```DataSourceNoCloud``` is selected  | cloud-init |
+| 4         | Cloud-init volume is mounted | cloud-init |
+| 5         | ```/var/lib/cloud/instance/``` folder is created from cloud-init volume files  | cloud-init |
+| 6         | Init, config and final modules are executed  | cloud-init |
+| 7         | scripts-vendor is executed  | cloud-init |
+| 8         | ```/var/lib/cloud/instance/scripts/vendor/part-004``` script is executed where the subscription registration takes place	 | RHEL |
+| 9         | ```/etc/yum.repos.d/redhat.repo``` is generated | subscription-manager
 
 
 ### Test environment
