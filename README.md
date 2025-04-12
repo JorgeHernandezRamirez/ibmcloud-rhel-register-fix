@@ -135,6 +135,11 @@ Don't recommended if you are in a IBM-Managed Subscription model
 ### 3. How to subscribe your RHEL OS manually?
 Don't recommended if you are in a IBM-Managed Subscription model
 
+### Way 1
+```bash
+source /var/lib/cloud/instance/scripts/vendor/part-004
+```
+### Way 2
 Use ```subscription-manager register``` command. You have to locate all those variables in ```/var/lib/cloud/instance/scripts/vendor/part-004``` file
 ```bash
 OS_REDHAT_ORG_NAME=$(cat /var/lib/cloud/instance/scripts/vendor/part-004 |grep -E "^OS_REDHAT_ORG_NAME" | cut -d'=' -f 2 | sed 's/"//g')
@@ -142,10 +147,6 @@ ACTIVATION_KEYS=$(cat /var/lib/cloud/instance/scripts/vendor/part-004 |grep -E "
 PROFILENAME=$(cat /var/lib/cloud/instance/scripts/vendor/part-004 |grep -E "^PROFILENAME" | cut -d'=' -f 2 | sed 's/"//g')
 REDHAT_CAPSULE_SERVER=$(cat /var/lib/cloud/instance/scripts/vendor/part-004 |grep -E "^REDHAT_CAPSULE_SERVER" | cut -d'=' -f 2 | sed 's/"//g')
 sudo subscription-manager register --org="${OS_REDHAT_ORG_NAME}" --activationkey="${ACTIVATION_KEYS}" --name="${PROFILENAME}" --baseurl="https://${REDHAT_CAPSULE_SERVER}/pulp/repos" --force
-```
-Or simply doing
-```bash
-source /var/lib/cloud/instance/scripts/vendor/part-004
 ```
 ### 4. How to check the Datasource used?
 ```bash
