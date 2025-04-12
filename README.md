@@ -16,16 +16,33 @@ cat /mnt/cloud-init/vendor-data
 
 ![alt text](cloudinit.jpg)
 
+We can summarize the Cloud-Init process as follows:
+
+| Step                  | Description | Responsible                 |
+|---------------------------|-------------------------------------------------------------------|----|
+| 1         | VSI Starts up  | IBM |
+| 2         | Cloud init service starts  | RHEL OS |
+| 3         | ```DataSourceNoCloud``` is selected  | Cloud-init |
+| 4         | Cloud-init volume is mounted | Cloud-init |
+| 5         | ```/var/lib/cloud/instance/``` folder is created from cloud-init volume files  | Cloud-init |
+| 6         | Init, config and final modules are executed  | Cloud-init |
+| 7         | scripts-vendor is executed  | Cloud-init |
+| 8         | ```/var/lib/cloud/instance/scripts/vendor/part-004``` script is executed where the subscription registration takes place	 | RHEL OS |
 
 
 ### Test environment
 The following procedure has been tested on the following rhel versions
+
+| RHEL version                  | Cloud init version | VPC Image                                                        |
+|---------------------------|-------------------------------------------------------------------|----|
+| 8.8          | 22.1-8.el8_8.1  | ibm-redhat-8-8-minimal-amd64-9 |
+| 8.10          | 23.4-7.el8_10.8 | ibm-redhat-8-10-minimal-amd64-4 |
+| 9.2          | 22.1-10.el9_2  | ibm-redhat-9-2-minimal-amd64-8 |
+| 9.4          | 23.4-7.el9_4.11  | ibm-redhat-9-4-minimal-amd64-7 |
+
+
+VSI profile used
 * Profile ```cx3d-2x5```
-* Images
-    * v8.8. ```ibm-redhat-8-8-minimal-amd64-9``` image
-    * v8.10. ```ibm-redhat-8-10-minimal-amd64-4``` image
-    * v9.2. ```ibm-redhat-9-2-minimal-amd64-8``` image
-    * v9.4. ```ibm-redhat-9-4-minimal-amd64-7``` image
 
 # Subscribe your RHEL OS on IBM Cloud after a subscription error during provisioning
 ### Step 1. Review that your RHEL hasn't be subscribed
@@ -69,7 +86,7 @@ You must review the ```security groups``` attached to the VNI bound to your VSI,
 
 
 ### Step 4. Subscribe it
-We will proceed by restarting the cloud-init procedure. The component responsible for subscribing your RHEL OS is cloud-init, through the ```scripts-vendor``` module, which is located under ```cloud_final_modules``` in the ```/etc/cloud/cloud.cfg``` file. Final modules are executed once during the machine's first startup. To force another execution, we simply need to do the following:
+We will proceed by restarting the cloud-init procedure. The component responsible for subscribing your RHEL OS is cloud-init, through the ```scripts-vendor``` module, which is located under ```cloud_config_modules``` in the ```/etc/cloud/cloud.cfg``` file. Config modules are executed once during the machine's first startup. To force another execution, we simply need to do the following:
 
 ```bash
 cloud-init clean
@@ -82,6 +99,9 @@ Script vendor source code
 ```
 https://github.com/canonical/cloud-init/blob/main/cloudinit/config/cc_scripts_vendor.py
 ```
+
+# Summary
+This blog explains how to properly subscribe a RHEL instance when the initial subscription fails during the first boot, often due to connectivity issues with the subscription endpoint. It also covers various subscription models for registering the OS and the role of cloud-init in automating and managing the subscription process
 
 # FAQ's
 ### 1. How can you determine which volume is the cloud-init volume?
@@ -116,12 +136,31 @@ Don't recommended if you are in a IBM-Managed Subscription model
 
 Use ```subscription-manager register``` command. You have to locate all those variables in ```/var/lib/cloud/instance/scripts/vendor/part-004``` file
 ```bash
+OS_REDHAT_ORG_NAME=$(cat /var/lib/cloud/instance/scripts/vendor/part-004 |grep -E "^OS_REDHAT_ORG_NAME" | cut -d'=' -f 2 | sed 's/"//g')
+ACTIVATION_KEYS=$(cat /var/lib/cloud/instance/scripts/vendor/part-004 |grep -E "^ACTIVATION_KEYS" |awk -F'ACTIVATION_KEYS=' '{print $2}'| sed 's/"//g')
+PROFILENAME=$(cat /var/lib/cloud/instance/scripts/vendor/part-004 |grep -E "^PROFILENAME" | cut -d'=' -f 2 | sed 's/"//g')
+REDHAT_CAPSULE_SERVER=$(cat /var/lib/cloud/instance/scripts/vendor/part-004 |grep -E "^REDHAT_CAPSULE_SERVER" | cut -d'=' -f 2 | sed 's/"//g')
 sudo subscription-manager register --org="${OS_REDHAT_ORG_NAME}" --activationkey="${ACTIVATION_KEYS}" --name="${PROFILENAME}" --baseurl="https://${REDHAT_CAPSULE_SERVER}/pulp/repos" --force
 ```
 Or simply doing
 ```bash
 source /var/lib/cloud/instance/scripts/vendor/part-004
 ```
+### 4. How to check the Datasource used?
+```bash
+cloud-init status --long
+```
+or 
+```bash
+/var/lib/cloud/instance/datasource
+```
+Excepted output is
+```bash
+DataSourceNoCloud: DataSourceNoCloud [seed=/dev/vdb][dsmode=net]
+```
+
+### 5. Who is responsible of mounting cloud init volume?
+```DataSourceNoCloud.py``` file
 
 # References
 * https://github.com/canonical/cloud-init/blob/main/cloudinit
@@ -129,6 +168,6 @@ source /var/lib/cloud/instance/scripts/vendor/part-004
 * https://cloud.ibm.com/docs/image-templates?topic=image-templates-using-your-own-os-license-or-subscription
 * https://cloud.ibm.com/docs/vpc?topic=vpc-byol-vpc-about#byol-vpc-linux
 
-
-
-
+# Authors
+* Jorge Hernández Ramírez (jorgehernandezramirez@ibm.com)
+* Francisco Javier Ramos Muñoz (fco_ramos@es.ibm.com)
