@@ -106,7 +106,7 @@ We can summarize the subscription register process on cloud-init  as follows:
 This blog explains how to properly subscribe a RHEL instance when the initial subscription fails during the first boot, often due to connectivity issues with the subscription endpoint. It also covers various subscription models for registering the OS and the role of cloud-init in automating and managing the subscription process
 
 # FAQ's
-### 1. How can you determine which volume is the cloud-init volume?
+### 1. How the cloud-init volume is identified?
 Through label ```cidata```
 ```bash
 lsblk -f | grep cidata
