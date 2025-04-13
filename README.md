@@ -155,7 +155,7 @@ cloud-init status --long
 ```
 or 
 ```bash
-/var/lib/cloud/instance/datasource
+cat /var/lib/cloud/instance/datasource
 ```
 Excepted output is
 ```bash
