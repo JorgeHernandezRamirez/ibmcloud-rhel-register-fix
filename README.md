@@ -28,7 +28,7 @@ We can summarize the subscription register process on cloud-init  as follows:
 | 6         | Init, config and final modules are executed  | cloud-init |
 | 7         | scripts-vendor is executed  | cloud-init |
 | 8         | ```/var/lib/cloud/instance/scripts/vendor/part-004``` script is executed where the subscription registration takes place	 | RHEL |
-| 9         | ```/etc/rhsm/rhsm.conf``` hostname and port is updated | subscription-manager
+| 9         | ```/etc/rhsm/rhsm.conf``` hostname and port is updated | vendor script
 | 9         | ```/etc/yum.repos.d/redhat.repo``` is generated | subscription-manager
 
 
