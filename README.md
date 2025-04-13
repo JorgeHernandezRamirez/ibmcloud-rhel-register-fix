@@ -1,6 +1,20 @@
 # Introduction
 This blog aims to demonstrate how to properly subscribe a RHEL instance in scenarios where the initial subscription attempt fails during the system's first boot. One common cause for this is a lack of connectivity to the subscription endpoint. We will explore this scenario in detail and provide solutions to resolve it. Additionally, the blog will offer an overview of the different subscription models available for registering the operating system, while also explaining the role of cloud-init in managing and automating this process.
 
+### Test environment
+The following procedure has been tested on the following rhel versions
+
+| RHEL version                  | Cloud init version | VPC Image                                                        |
+|---------------------------|-------------------------------------------------------------------|----|
+| 8.8          | 22.1-8.el8_8.1  | ibm-redhat-8-8-minimal-amd64-9 |
+| 8.10          | 23.4-7.el8_10.8 | ibm-redhat-8-10-minimal-amd64-4 |
+| 9.2          | 22.1-10.el9_2  | ibm-redhat-9-2-minimal-amd64-8 |
+| 9.4          | 23.4-7.el9_4.11  | ibm-redhat-9-4-minimal-amd64-7 |
+
+
+VSI profile used
+* Profile ```cx3d-2x5```
+
 
 # Subscribe your RHEL OS on IBM Cloud after a subscription error during provisioning
 ### Step 1. Review that your RHEL hasn't be subscribed
@@ -87,21 +101,6 @@ We can summarize the subscription register process on cloud-init  as follows:
 | 8         | ```/var/lib/cloud/instance/scripts/vendor/part-004``` script is executed where the subscription registration takes place	 | RHEL |
 | 9         | ```/etc/rhsm/rhsm.conf``` hostname and port is updated | subscription-manager
 | 9         | ```/etc/yum.repos.d/redhat.repo``` is generated | subscription-manager
-
-
-### Test environment
-The following procedure has been tested on the following rhel versions
-
-| RHEL version                  | Cloud init version | VPC Image                                                        |
-|---------------------------|-------------------------------------------------------------------|----|
-| 8.8          | 22.1-8.el8_8.1  | ibm-redhat-8-8-minimal-amd64-9 |
-| 8.10          | 23.4-7.el8_10.8 | ibm-redhat-8-10-minimal-amd64-4 |
-| 9.2          | 22.1-10.el9_2  | ibm-redhat-9-2-minimal-amd64-8 |
-| 9.4          | 23.4-7.el9_4.11  | ibm-redhat-9-4-minimal-amd64-7 |
-
-
-VSI profile used
-* Profile ```cx3d-2x5```
 
 # Summary
 This blog explains how to properly subscribe a RHEL instance when the initial subscription fails during the first boot, often due to connectivity issues with the subscription endpoint. It also covers various subscription models for registering the OS and the role of cloud-init in automating and managing the subscription process
