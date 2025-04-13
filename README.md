@@ -1,50 +1,6 @@
 # Introduction
 This blog aims to demonstrate how to properly subscribe a RHEL instance in scenarios where the initial subscription attempt fails during the system's first boot. One common cause for this is a lack of connectivity to the subscription endpoint. We will explore this scenario in detail and provide solutions to resolve it. Additionally, the blog will offer an overview of the different subscription models available for registering the operating system, while also explaining the role of cloud-init in managing and automating this process.
 
-# Subscription models for RHEL on IBM Cloud
-
-With the **BYOL** (Bring Your Own License) model, the customer provides their own Red Hat subscription. This model is ideal for organizations that already have an existing Red Hat contract and wish to centralize their usage and support under their own account. Customers can bring their own license through a custom VPC image. These images are registered and licensed by the customer, and the activation of the license is managed directly between the customer and the OS vendor. For more information, please refer to https://cloud.ibm.com/docs/vpc?topic=vpc-byol-vpc-about#byol-vpc-linux
-
-In other hand **IBM-Managed Subscription** is applied when selecting an official RHEL image from the IBM Cloud stock images catalog. The instance is automatically registered to use Red Hat repositories through cloud-init configuration. IBM Cloud provides a cloud-init volume to the instance, allowing the cloud-init service to retrieve the necessary information to configure the machine. This information includes, among other things, the subscription procedure, the URL, the organization, the activation key, and the profile name, all of which are defined in the vendor-data file.
-
-To view the file, simply run the following command
-```bash
-mkdir /mnt/cloud-init
-mount /dev/$(lsblk -f | grep cidata | awk '{print $1}') /mnt/cloud-init
-cat /mnt/cloud-init/vendor-data
-```
-
-![alt text](cloudinit.jpg)
-
-We can summarize the subscription register process on cloud-init  as follows:
-
-| Step                  | Description | Responsible                 |
-|---------------------------|-------------------------------------------------------------------|----|
-| 1         | VSI Starts up  | IBM |
-| 2         | Cloud init service starts  | RHEL |
-| 3         | ```DataSourceNoCloud``` is selected  | cloud-init |
-| 4         | Cloud-init volume is mounted | cloud-init |
-| 5         | ```/var/lib/cloud/instance/``` folder is created from cloud-init volume files  | cloud-init |
-| 6         | Init, config and final modules are executed  | cloud-init |
-| 7         | scripts-vendor is executed  | cloud-init |
-| 8         | ```/var/lib/cloud/instance/scripts/vendor/part-004``` script is executed where the subscription registration takes place	 | RHEL |
-| 9         | ```/etc/rhsm/rhsm.conf``` hostname and port is updated | subscription-manager
-| 9         | ```/etc/yum.repos.d/redhat.repo``` is generated | subscription-manager
-
-
-### Test environment
-The following procedure has been tested on the following rhel versions
-
-| RHEL version                  | Cloud init version | VPC Image                                                        |
-|---------------------------|-------------------------------------------------------------------|----|
-| 8.8          | 22.1-8.el8_8.1  | ibm-redhat-8-8-minimal-amd64-9 |
-| 8.10          | 23.4-7.el8_10.8 | ibm-redhat-8-10-minimal-amd64-4 |
-| 9.2          | 22.1-10.el9_2  | ibm-redhat-9-2-minimal-amd64-8 |
-| 9.4          | 23.4-7.el9_4.11  | ibm-redhat-9-4-minimal-amd64-7 |
-
-
-VSI profile used
-* Profile ```cx3d-2x5```
 
 # Subscribe your RHEL OS on IBM Cloud after a subscription error during provisioning
 ### Step 1. Review that your RHEL hasn't be subscribed
@@ -101,6 +57,51 @@ Script vendor source code
 ```
 https://github.com/canonical/cloud-init/blob/main/cloudinit/config/cc_scripts_vendor.py
 ```
+
+# Subscription models for RHEL on IBM Cloud
+
+With the **BYOL** (Bring Your Own License) model, the customer provides their own Red Hat subscription. This model is ideal for organizations that already have an existing Red Hat contract and wish to centralize their usage and support under their own account. Customers can bring their own license through a custom VPC image. These images are registered and licensed by the customer, and the activation of the license is managed directly between the customer and the OS vendor. For more information, please refer to https://cloud.ibm.com/docs/vpc?topic=vpc-byol-vpc-about#byol-vpc-linux
+
+In other hand **IBM-Managed Subscription** is applied when selecting an official RHEL image from the IBM Cloud stock images catalog. The instance is automatically registered to use Red Hat repositories through cloud-init configuration. IBM Cloud provides a cloud-init volume to the instance, allowing the cloud-init service to retrieve the necessary information to configure the machine. This information includes, among other things, the subscription procedure, the URL, the organization, the activation key, and the profile name, all of which are defined in the vendor-data file.
+
+To view the file, simply run the following command
+```bash
+mkdir /mnt/cloud-init
+mount /dev/$(lsblk -f | grep cidata | awk '{print $1}') /mnt/cloud-init
+cat /mnt/cloud-init/vendor-data
+```
+
+![alt text](cloudinit.jpg)
+
+We can summarize the subscription register process on cloud-init  as follows:
+
+| Step                  | Description | Responsible                 |
+|---------------------------|-------------------------------------------------------------------|----|
+| 1         | VSI Starts up  | IBM |
+| 2         | Cloud init service starts  | RHEL |
+| 3         | ```DataSourceNoCloud``` is selected  | cloud-init |
+| 4         | Cloud-init volume is mounted | cloud-init |
+| 5         | ```/var/lib/cloud/instance/``` folder is created from cloud-init volume files  | cloud-init |
+| 6         | Init, config and final modules are executed  | cloud-init |
+| 7         | scripts-vendor is executed  | cloud-init |
+| 8         | ```/var/lib/cloud/instance/scripts/vendor/part-004``` script is executed where the subscription registration takes place	 | RHEL |
+| 9         | ```/etc/rhsm/rhsm.conf``` hostname and port is updated | subscription-manager
+| 9         | ```/etc/yum.repos.d/redhat.repo``` is generated | subscription-manager
+
+
+### Test environment
+The following procedure has been tested on the following rhel versions
+
+| RHEL version                  | Cloud init version | VPC Image                                                        |
+|---------------------------|-------------------------------------------------------------------|----|
+| 8.8          | 22.1-8.el8_8.1  | ibm-redhat-8-8-minimal-amd64-9 |
+| 8.10          | 23.4-7.el8_10.8 | ibm-redhat-8-10-minimal-amd64-4 |
+| 9.2          | 22.1-10.el9_2  | ibm-redhat-9-2-minimal-amd64-8 |
+| 9.4          | 23.4-7.el9_4.11  | ibm-redhat-9-4-minimal-amd64-7 |
+
+
+VSI profile used
+* Profile ```cx3d-2x5```
 
 # Summary
 This blog explains how to properly subscribe a RHEL instance when the initial subscription fails during the first boot, often due to connectivity issues with the subscription endpoint. It also covers various subscription models for registering the OS and the role of cloud-init in automating and managing the subscription process
