@@ -133,7 +133,7 @@ Don't recommended if you are in a IBM-Managed Subscription model
         service-level: "standard"
 ```
 
-### 3. How to subscribe your RHEL OS manually?
+### 3. How to register your RHEL OS manually?
 Don't recommended if you are in a IBM-Managed Subscription model
 
 ### Way 1
@@ -164,6 +164,11 @@ DataSourceNoCloud: DataSourceNoCloud [seed=/dev/vdb][dsmode=net]
 
 ### 5. Who is responsible of mounting cloud init volume?
 ```DataSourceNoCloud.py``` file
+
+### 6. How to unregister your RHEL OS?
+```bash
+subscription-manager unregister
+```
 
 # References
 * https://github.com/canonical/cloud-init/blob/main/cloudinit
