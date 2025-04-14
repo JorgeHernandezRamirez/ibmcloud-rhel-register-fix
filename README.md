@@ -178,4 +178,3 @@ subscription-manager unregister
 
 # Authors
 * Jorge Hernández Ramírez (jorgehernandezramirez@ibm.com)
-* Francisco Javier Ramos Muñoz (fco_ramos@es.ibm.com)
