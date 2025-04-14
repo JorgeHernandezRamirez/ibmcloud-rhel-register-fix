@@ -17,6 +17,9 @@ VSI profile used
 
 
 # Subscribe your RHEL OS on IBM Cloud after a subscription error during provisioning
+> [!WARNING]
+> IBM reserves the right to modify the subscription mechanism for its VPC virtual machines in the future. If this procedure no longer resolves your issue at that time, please contact Support for further assistance.
+
 ### Step 1. Review that your RHEL hasn't be subscribed
 ```bash
 subscription-manager status
