@@ -21,7 +21,7 @@ VSI profile used
 ```bash
 subscription-manager status
 ```
-In sush case you will see
+In such case you will see
 ```bash
 +-------------------------------------------+
    System Status Details
