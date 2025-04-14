@@ -15,10 +15,11 @@ The following procedure has been tested on the following rhel versions
 VSI profile used
 * Profile ```cx3d-2x5```
 
+> [!WARNING]
+> IBM reserves the right to modify the subscription mechanism for its VPC virtual machines in the future, the way to detect cloud-init volume or anything commented on this blog. If this procedure no longer resolves your issue at that time, please contact Support for further assistance.
+
 
 # Subscribe your RHEL OS on IBM Cloud after a subscription error during provisioning
-> [!WARNING]
-> IBM reserves the right to modify the subscription mechanism for its VPC virtual machines in the future. If this procedure no longer resolves your issue at that time, please contact Support for further assistance.
 
 ### Step 1. Review that your RHEL hasn't be subscribed
 ```bash
