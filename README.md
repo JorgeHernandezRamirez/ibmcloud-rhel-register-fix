@@ -182,5 +182,6 @@ subscription-manager unregister
 
 # Authors
 * Jorge Hernández Ramírez (jorgehernandezramirez@ibm.com)
+* Francisco Ramos Muñoz (fco_ramos@es.ibm.com)
 * Krzysztof Rafalski (krzysztof.rafalski@ibm.com)
-* Daniel Alvarez (daniel.alvarez.c@ibm.com)
+* Daniel Alvarez Colina (daniel.alvarez.c@ibm.com)
