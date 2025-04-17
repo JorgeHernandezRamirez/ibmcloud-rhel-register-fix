@@ -38,7 +38,7 @@ Overall Status: Unknown
 We have identified several scenarios where this issue could occur:
 
 * Lack of network connectivity to the subscription endpoint.
-* A user has forced a re-registration using the command: ```subscription-manager register --force``` and the procedure hadn't finished.
+* A user has forced a re-registration using the command: ```subscription-manager register --force``` and the procedure hasn't finished.
 
 ### Step 2. How to check which is the subscription RHEL host and port used
 ```bash
