@@ -1,8 +1,8 @@
 # Introduction
-This blog aims to demonstrate how to properly subscribe a RHEL instance in scenarios where the initial subscription attempt fails during the system's first boot. One common cause for this is a lack of connectivity to the subscription endpoint. We will explore this scenario in detail and provide solutions to resolve it. Additionally, the blog will offer an overview of the different subscription models available for registering the operating system, while also explaining the role of cloud-init in managing and automating this process.
+This blog aims to demonstrate how to properly subscribe a RHEL instance in scenarios where the initial subscription attempt fails during the system's first boot on IBM Cloud. One common cause for this is a lack of connectivity to the subscription endpoint. We will explore this scenario in detail and provide solutions to resolve it. Additionally, the blog will offer an overview of the different subscription models available for registering the operating system, while also explaining the role of cloud-init in managing and automating this process.
 
 ### Test environment
-The following procedure has been tested on the following rhel versions
+The following procedure has been tested on the following rhel versions on IBM Cloud
 
 | RHEL version                  | Cloud init version | VPC Image                                                        |
 |---------------------------|-------------------------------------------------------------------|----|
